@@ -8,6 +8,9 @@ import Person = require('./Person');
 module TypeScriptGreeter {
     "use strict";
     export module Application {
+
+        let current = 0;
+
         export function initialize() {
             document.addEventListener('deviceready', onDeviceReady.bind(this), false);
         }
@@ -18,41 +21,33 @@ module TypeScriptGreeter {
             document.addEventListener('resume', onResume, false);
 
             // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-            window.addEventListener("batterystatus", onBatteryStatus.bind(this), false);
             var element = document.getElementById('geo');
             element.addEventListener('click', onClick.bind(this), false);
         }
 
-        function onBatteryStatus(info: any) {
-            // Handle the online event
-            console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
-            createUser(info.level);
-        }
-
         function createUser(loc: any) {
-            let user = new Student("Jane", "M.", "User", loc);
-
-            var element = document.getElementById('hello');
-            element.textContent = greeter(user);
+            var lastName = "User " + current++;
+            let user = new Student("Jane", "M.", lastName, loc);
+            showGreeter(user);
         }
 
-        function greeter(person: Person) {
-            return "Hello, " + person.firstname + " " + person.lastname + " latitude: " + person.latitude;
+        function showGreeter(person: Person) {
+            var element = document.getElementById('hello');
+            element.textContent = "Hello, " + person.firstname + " " + person.lastname + " @latitude: " + person.latitude;
         }
 
         function onClick(args: any) {
-
             navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 3000 });
         }
 
         function onSuccess(position: any) {
             createUser(position.coords.latitude);
-            console.log("good");
+            console.log("found location data");
         }
 
         function onError(err: any) {
             createUser("no location data");
-            console.log("bad");
+            console.log("location data not available");
         }
 
         function onPause() {
