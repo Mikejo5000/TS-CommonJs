@@ -12,44 +12,54 @@ var Student = (function () {
 module.exports = Student;
 },{}],2:[function(require,module,exports){
 var Student = require('./Student');
-(function () {
+var TypeScriptGreeter;
+(function (TypeScriptGreeter) {
     "use strict";
-    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
-    function onDeviceReady() {
-        document.addEventListener('pause', onPause, false);
-        document.addEventListener('resume', onResume, false);
-        window.addEventListener("batterystatus", onBatteryStatus.bind(this), false);
-        var element = document.getElementById('geo');
-        element.addEventListener('click', onClick.bind(this), false);
-    }
-    function onBatteryStatus(info) {
-        console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
-        createUser(info.level);
-    }
-    function createUser(loc) {
-        var user = new Student("Jane", "M.", "User", loc);
-        var element = document.getElementById('hello');
-        element.textContent = greeter(user);
-    }
-    function greeter(person) {
-        return "Hello, " + person.firstname + " " + person.lastname + " latitude: " + person.latitude;
-    }
-    function onClick(args) {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 3000 });
-    }
-    function onSuccess(position) {
-        createUser(position.coords.latitude);
-        console.log("good");
-    }
-    function onError(err) {
-        createUser("no location data");
-        console.log("bad");
-    }
-    function onPause() {
-    }
-    function onResume() {
-    }
-})();
+    var Application;
+    (function (Application) {
+        function initialize() {
+            document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+        }
+        Application.initialize = initialize;
+        function onDeviceReady() {
+            document.addEventListener('pause', onPause, false);
+            document.addEventListener('resume', onResume, false);
+            window.addEventListener("batterystatus", onBatteryStatus.bind(this), false);
+            var element = document.getElementById('geo');
+            element.addEventListener('click', onClick.bind(this), false);
+        }
+        function onBatteryStatus(info) {
+            console.log("Level: " + info.level + " isPlugged: " + info.isPlugged);
+            createUser(info.level);
+        }
+        function createUser(loc) {
+            var user = new Student("Jane", "M.", "User", loc);
+            var element = document.getElementById('hello');
+            element.textContent = greeter(user);
+        }
+        function greeter(person) {
+            return "Hello, " + person.firstname + " " + person.lastname + " latitude: " + person.latitude;
+        }
+        function onClick(args) {
+            navigator.geolocation.getCurrentPosition(onSuccess, onError, { timeout: 3000 });
+        }
+        function onSuccess(position) {
+            createUser(position.coords.latitude);
+            console.log("good");
+        }
+        function onError(err) {
+            createUser("no location data");
+            console.log("bad");
+        }
+        function onPause() {
+        }
+        function onResume() {
+        }
+    })(Application = TypeScriptGreeter.Application || (TypeScriptGreeter.Application = {}));
+    window.onload = function () {
+        Application.initialize();
+    };
+})(TypeScriptGreeter || (TypeScriptGreeter = {}));
 },{"./Student":1}]},{},[2])
 
 
