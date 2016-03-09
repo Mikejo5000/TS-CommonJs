@@ -1,4 +1,5 @@
-﻿'use strict';
+/// <binding BeforeBuild='default' />
+'use strict';
 
 var browserify = require('browserify');
 var gulp = require('gulp');
